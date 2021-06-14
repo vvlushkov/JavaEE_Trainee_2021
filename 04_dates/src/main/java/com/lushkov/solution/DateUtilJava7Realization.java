@@ -36,23 +36,45 @@ public class DateUtilJava7Realization implements DateUtilJava7 {
      */
     @Override
     public String between(Date date1, Date date2) {
-        long millis;
-        if (date1.compareTo(date2) == 0) {
-            return "Dates are identical.";
-        } else {
-            //проверка, какая дата позднее
-            if (date1.compareTo(date2) > 0) { //date1 > date2
-                millis = date1.getTime() - date2.getTime();
-                return dateCounter(millis);
-            } else {
-                if (date1.compareTo(date2) < 0) { //date1 < date2
-                    millis = date2.getTime() - date1.getTime();
-                    return dateCounter(millis);
-                }
-            }
+        final int monthInYear = 12;
+        if (date1.compareTo(date2) > 0) { //change position if need
+            Date temp = date2;
+            date2 = date1;
+            date1 = temp;
         }
-        return null;
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(date1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.setTime(date2);
+        int yearsInBetween = endDate.get(Calendar.YEAR)
+                - startDate.get(Calendar.YEAR);
+        int monthsDiff = endDate.get(Calendar.MONTH)
+                - startDate.get(Calendar.MONTH);
+        if (monthsDiff < 0) {
+            yearsInBetween--;
+            monthsDiff = monthInYear + monthsDiff;
+        }
+        int daysDiff = endDate.get(Calendar.DAY_OF_MONTH)
+                - startDate.get(Calendar.DAY_OF_MONTH);
+        if (daysDiff < 0) {
+            monthsDiff--;
+            daysDiff = startDate.getActualMaximum(Calendar.DAY_OF_MONTH)
+                    - startDate.get(Calendar.DAY_OF_MONTH)
+                    + endDate.get(Calendar.DAY_OF_MONTH);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        if (yearsInBetween > 0) {
+            stringBuilder.append(yearsInBetween).append(" years ");
+        }
+        if (monthsDiff > 0) {
+            stringBuilder.append(monthsDiff).append(" months ");
+        }
+        if (daysDiff > 0) {
+            stringBuilder.append(daysDiff).append(" days");
+        }
+        return stringBuilder.toString().trim();
     }
+
     //Этот метод считает кол-во лет, месяцев и дней из милисекунд,
     //присланных как параметр. Ипользуется методом выше.
     //Работает, но с погрешностями в несколько дней.

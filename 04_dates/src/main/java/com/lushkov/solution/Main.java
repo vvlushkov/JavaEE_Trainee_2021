@@ -22,8 +22,10 @@ public class Main {
         //1-ый метод
         LOG.info("Java 7");
         LOG.info("First method:");
-        Date date1 = new Date(650000000000L);
-        Date date2 = new Date(690000000000L);
+        Calendar calendar1 = new GregorianCalendar(1977, Calendar.MAY, 23);
+        Calendar calendar2 = new GregorianCalendar(1978, Calendar.JUNE, 23);
+        Date date1 = calendar1.getTime();
+        Date date2 = calendar2.getTime();
         LOG.info(date1);
         LOG.info(date2);
         DateUtilJava7Realization javaDate7 = new DateUtilJava7Realization();
