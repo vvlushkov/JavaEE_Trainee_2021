@@ -5,12 +5,7 @@ import com.nixsolutions.ppp.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,43 +24,51 @@ public class IOUtilsRealization implements IOUtils {
     @Override
     public String gzip(String fileName, String folder)
             throws IllegalArgumentException {
-        File file = new File(fileName);
-        FileInputStream fileInput = null;
-        FileOutputStream fileOutput = null;
-        GZIPOutputStream gzipOutput = null;
-        byte[] array = new byte[(int)file.length()];
+        // Инициализируем поток чтения из файла
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        GZIPOutputStream gzipOutputStream = null;
         try {
-            fileInput = new FileInputStream(file);
-            fileInput.read(array);
-            fileOutput = new FileOutputStream(folder);
-            gzipOutput = new GZIPOutputStream(fileOutput);
-            gzipOutput.write(array);
-
-        } catch (IllegalArgumentException | IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fileInput != null) {
-                try {
-                    fileInput.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            // Переопределяем поток чтения из файла принятым первым параметром
+            inputStream = new FileInputStream(fileName);
+            // Инициализируем и определяем поток записи байтов в файл, указывая
+            // папкой с новым файлом папку из второго параметра.
+            outputStream = new FileOutputStream(folder + "/newFile.gzip");
+            // Инициализируем и определяем поток сжатия
+            gzipOutputStream = new GZIPOutputStream(outputStream);
+            // Устанавливаем размер шага чтения из файла
+            int byteStep = 1024;
+            byte[] buffer = new byte[byteStep];
+            // Инициализируем переменную хранящую позицию
+            int length;
+            //Сдвиг
+            int offset = 0;
+            // Сжимаем и записываем данные в файл
+            while((length = inputStream.read(buffer)) != -1){
+                gzipOutputStream.write(buffer, offset, length);
             }
-            if (fileOutput != null) {
-                try {
-                    fileOutput.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            return "Сжатие прошло успешно. Путь к файлу: "
+                    + folder + "/newFile.gzip";
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                gzipOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             try {
-                gzipOutput.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        return null;
     }
 
 

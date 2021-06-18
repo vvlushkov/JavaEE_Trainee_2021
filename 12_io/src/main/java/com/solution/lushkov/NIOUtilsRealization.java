@@ -5,9 +5,13 @@ import com.nixsolutions.ppp.io.NIOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author Victor Lushkov
@@ -17,13 +21,69 @@ public class NIOUtilsRealization implements NIOUtils {
             .getLogger(IOUtilsRealization.class.getName());
 
     /**
-     * Метод не сделан :(
+     * Функция ищет текст в файле, согласно следующим правилам. В файле
+     * расположен текст и числа типа Integer(положительные и отрицательные)
+     * разделитель пробел. Между разделителями не более 10 байт.<br>
+     * Если функция считывает число N, она должна начать следующее считываение
+     * через N байт, относительно текущей позиции. Для положительных чисел
+     * позицию прибавляем, для отрицательных вычитаем. Если функция после
+     * очередного числа считывает текст, то она возвращает это значение. Пример:
+     * <br>
+     * Содержимое файла: <br>
+     * 1 7 -2 a -2 <br>
+     * searchText(path, 4) вернет "а"<br>
+     *
+     * @param file
+     *            путь к файлу
+     * @param offset
+     *            начальный сдвиг в файле
+     * @return найденный в файле текст.
+     * @throws IllegalArgumentException
+     *             если {@code file} не существует
      */
     @Override
-    public String searchText(Path file, int offset) throws IllegalArgumentException {
+    public String searchText(Path file, int offset)
+            throws IllegalArgumentException {
+        try {
+            // Создаём массив строк.
+            String[] lines = Files.readAllLines(file,
+                    StandardCharsets.UTF_8).toArray(new String[0]);
+            // Инициализируем переменную хранящую весь текст из файла.
+            StringBuilder allFileText = new StringBuilder();
+            // Записыываем все строки в один файл.
+            for (int i = 0; i < lines.length; i++) {
+                allFileText.append(lines[i]).append(" ");
+            }
+            // Создваём массив значаений найденных во всем тексте из файла.
+            String[] elements = allFileText.toString().split(" ");
+            return searchTextAt(elements, offset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
+    /**
+     * Функция ищет все файлы с расширением {@code ext} в {@code folder}
+     * директории и если находит вложенные директории то
+     * вызывает сама себя внутри этой директории.
+     *
+     * @param values массив найденных значений
+     * @param offset позиция
+     * @return найденное по позиции значение.
+     */
+    private String searchTextAt(String [] values, int offset) {     //Нет описания работы метода
+        Pattern pattern = Pattern.compile("[0-9,-]+");
+        String found;
+        if(pattern.matcher(values[offset]).matches()){
+            found = searchTextAt(values,
+                    Integer.parseInt(values[offset]) + offset);
+        }
+        else {
+            return values[offset];
+        }
+        return found;
+    }
 
     /**
      * Функция ищет все файлы с расширением {@code ext} в {@code folder}
@@ -42,68 +102,24 @@ public class NIOUtilsRealization implements NIOUtils {
      */
     @Override
     public String[] search(Path folder, String ext) throws IllegalArgumentException {
-        //присвоение объекту File значения их Path
-        File fileFolder = folder.toFile();
-        //массив для найденных файлов
-        ArrayList<String> searchedFiles = new ArrayList<>();
-        //проверка на существование файла
-        if(!fileFolder.exists()) {
-            LOG.info(fileFolder.getAbsolutePath()
-                    + " папка не существует");
-            return null;
-        }
-        //все содержимое директории
-        File[] files = fileFolder.listFiles();
-        //перебор всех элементов в указанной директории
-        for (File dir : files) {
-            //рекурсивный метод который ищет файлы с заданным расширением
-            finder(dir, ext, searchedFiles);
-        }
-        //проверка размера массива с файлами
-        if (searchedFiles.size() == 0) {
-            LOG.info(fileFolder.getAbsolutePath()
-                    + " не содержит файлов с расширением " + ext);
-        }
-        //возврат в виде стрингового массива
-        return searchedFiles.toArray(new String[searchedFiles.size()]);
-    }
-
-    /**
-     * Рекурсивный метод для поиска вайлов по заданному расширению.
-     * Принимет три параметра: типа File(путь к элементу в директории),
-     * типа String(заданное расширение файла для поиска)
-     * и типа ArrayList(масссив, куда записывается путь найденных файлов).
-     *
-     * @param dir - параметр типа File, путь к элементу в директории
-     * @param ext - параметр типа String, раширение для поиска
-     * @param searchedFiles - параметр типа ArrayList, массив путей к файлам
-     */
-    private void finder(File dir, String ext, ArrayList searchedFiles) {
-        //проверка на то, является ли элемент в директории файлом
-        if (!dir.isFile()) {
-            //если нет, то создается массив содержимых в нем элементов
-            File[] files = dir.listFiles();
-            //перебор этого массива
-            for (File directory : files) {
-                //для каждого элементва вызывается этот же метод
-                finder(directory, ext, searchedFiles);
-            }
-            //если является файлом
-        } else {
-            //проверка на наличие какого-либо расширения для поиска
-            if (ext != null) { //если да, то след. код
-                //проверка на нужное расширение
-                if (dir.getAbsolutePath().endsWith(ext)) {
-                    //добавление в массив названия файла и пути к нему
-                    searchedFiles.add(dir.getName() + ": "
-                            + dir.getAbsolutePath());
-                }
-                //если никакого расширения для поиска не передали,
-                //то в массив добавляются все файлы
+        //String[] searchedFiles = null;
+        List<String> searchedFiles = null;
+        try {
+            if (ext == null) {
+                searchedFiles = Files.walk(folder)
+                        .filter(file -> file.toFile().isFile())
+                        .map(file -> file.toString())
+                        .collect(Collectors.toList());
             } else {
-                searchedFiles.add(dir.getName() + ": "
-                        + dir.getAbsolutePath());
+                searchedFiles = Files.walk(folder)
+                        .filter(file -> file.toString().endsWith(ext))
+                        .map(file -> file.toString())
+                        .collect(Collectors.toList());
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return searchedFiles.toArray(new String[searchedFiles.size()]);
     }
 }
