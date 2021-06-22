@@ -36,10 +36,6 @@ public class Main {
          * Покрыть проект тестами.
          */
 
-        Solution sol1 = new Solution();
-        String filePath = "/Users/Asus/Desktop/srez/srez.txt";
-        System.out.println(sol1.reader(filePath));
-        //LOG.info(sol1.reader(filePath));
 
 
     }
