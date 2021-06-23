@@ -8,6 +8,6 @@ public class Main {
             .getLogger(Main.class.getName());
 
     public static void main(String[] args) {
-        LOG.info("HiHi");
+        LOG.info("~Some info about music instruments~");
     }
 }
