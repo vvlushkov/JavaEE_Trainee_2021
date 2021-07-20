@@ -13,7 +13,6 @@ public class Main {
      * @param args - arguments
      */
     public static  void main(String[] args) {
-
         /**
          * Вы создаете файл с данными вручную
          * (в процессе устного ответа я могу поменять данные (все данные на английском языке),
@@ -35,8 +34,5 @@ public class Main {
          *
          * Покрыть проект тестами.
          */
-
-
-
     }
 }
