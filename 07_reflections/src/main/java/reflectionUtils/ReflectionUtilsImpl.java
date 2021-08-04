@@ -18,7 +18,9 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class ReflectionUtilsImpl implements ReflectionUtil {
-    /** Field for logging. */
+    /**
+     * Field for logging.
+     */
     private static final Logger LOG = LogManager
             .getLogger(ReflectionUtilsImpl.class.getName());
 
