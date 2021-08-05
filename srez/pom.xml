@@ -16,18 +16,22 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            <!--Create javaDoc-->
             <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
+                        <id>javaDoc</id>
+                        <phase>compile</phase>
                         <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
+                            <goal>javadoc</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
