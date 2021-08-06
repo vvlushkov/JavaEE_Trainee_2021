@@ -11,29 +11,55 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringMakerFromObject implements StringMaker<String, Object> {
+/**
+ * Class implements interface {@code StringMaker}.
+ * Contains methods to do informational strings.
+ */
+public class InformationalStringMaker implements StringMaker<Object> {
     /**
      * Field for logging.
      */
     private static final Logger LOG = LogManager
-            .getLogger(StringMakerFromObject.class.getName());
-
-
-
-
-
-
+            .getLogger(InformationalStringMaker.class.getName());
 
     /**
+     * Method append to string new info from string and object class.
      *
-     *
-     * @param str
-     * @param objToWrite
-     * @return
-     * @throws Exception
+     * @param   str
+     *          string with new info.
+     * @param   res
+     *          result string in which new info will be added.
+     * @param   clazz
+     *          Class, from which info departed.
+     * @return  result string with new info.
      */
     @Override
-    public String stringMaker(String str, Object objToWrite) throws Exception {
+    public String infoString(String str, String res, Class<?> clazz) {
+        StringBuilder stringBuilder = new StringBuilder(res);
+        stringBuilder.append("\nNew information from ").append(clazz.getName())
+                     .append(" :\n");
+        if ((str == null) || (str.equals(""))) {
+            stringBuilder.append("No information received.\n");
+        } else {
+            stringBuilder.append(str);
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Method make informational string about object, specifically
+     * adding info about its fields.
+     *
+     * @param   str
+     *          string in which wil be added info.
+     * @param   objToWrite
+     *          object from fields are taken.
+     * @return  result string with information.
+     * @throws  Exception
+     *          in case when object don`t contains fields.
+     */
+    @Override
+    public String infoStringAboutObj(String str, Object objToWrite) throws Exception {
         StringBuilder res = new StringBuilder(str);
         res.append("\n").append("Object of ")
                         .append(objToWrite.getClass()).append(" information:\n");
@@ -49,14 +75,16 @@ public class StringMakerFromObject implements StringMaker<String, Object> {
         return  res.toString();
     }
 
-
-
-
     /**
+     * Method take list with fields and add to result string information
+     * about type, name and value of this fields.
      *
-     * @param fields
-     * @param res
-     * @param objToWrite
+     * @param   fields
+     *          list of fields.
+     * @param   res
+     *          result string in StringBuilder type.
+     * @param   objToWrite
+     *          object from fields are taken.
      */
     private void fieldToStrAppender(List<Field> fields,
                                     StringBuilder res,
@@ -69,6 +97,7 @@ public class StringMakerFromObject implements StringMaker<String, Object> {
             } catch (IllegalAccessException e) {
                 LOG.info(e.getMessage());
             }
+            res.append("\n");
         }
         res.delete(res.length() - 2, res.length());
     }
@@ -100,9 +129,4 @@ public class StringMakerFromObject implements StringMaker<String, Object> {
         }
         return fields;
     }
-
-
-
-
-
 }

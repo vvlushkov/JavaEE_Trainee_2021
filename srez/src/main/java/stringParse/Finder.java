@@ -34,30 +34,79 @@ public class Finder implements Externalizable {
     /** Field of found year in string. */
     private int foundYear;
     /** Array of date. */
-    int[] dateArrays = new int[3];
+    private final int[] dateArrays = new int[3];
 
     /**
-     * @return  array with info about date:
-     *          <ul>
-     *              <li>[0] - year</li>
-     *              <li>[1] - month</li>
-     *              <li>[2] - day</li>
-     *          </ul>
+     * @return array with info about date:
+     *         <ul>
+     *             <li>[0] - year</li>
+     *             <li>[1] - month</li>
+     *             <li>[2] - day</li>
+     *         </ul>
      */
     public int[] getDateArrays() {
         return dateArrays;
     }
 
+    /**
+     * Method set values of array {@code dateArrays}.
+     *
+     * @param   one
+     *          first value (year).
+     * @param   two
+     *          second value (month).
+     * @param   three
+     *          third value (day of month).
+     */
+    public void setDateArrays(int one, int two, int three) {
+        dateArrays[0] = one;
+        dateArrays[2] = two;
+        dateArrays[1] = three;
+    }
+
+    /**
+     * @return the value of the field {@code foundDaysInMonth}.
+     */
     public int getFoundDaysInMonth() {
         return foundDaysInMonth;
     }
 
+    /**
+     * Method set value of field {@code foundDaysInMonth}.
+     *
+     * @param   foundDaysInMonth
+     *          days in month.
+     */
+    public void setFoundDaysInMonth(int foundDaysInMonth) {
+        this.foundDaysInMonth = foundDaysInMonth;
+    }
+
+    /**
+     * @return the value of the field {@code foundMonth}.
+     */
     public int getFoundMonth() {
         return foundMonth;
     }
 
+    /**
+     * Method set value of field {@code foundMonth}.
+     *
+     * @param   foundMonth
+     *          the number of month.
+     */
+    public void setFoundMonth(int foundMonth) {
+        this.foundMonth = foundMonth;
+    }
+
+    /**
+     * @return the value of the field {@code foundYear}.
+     */
     public int getFoundYear() {
         return foundYear;
+    }
+
+    public void setFoundYear(int foundYear) {
+        this.foundYear = foundYear;
     }
 
     /**
@@ -78,12 +127,10 @@ public class Finder implements Externalizable {
     public int[] dateFinder(String str) {
         yearFind(str);
         dateArrays[0] = foundYear;
-
-        daysOfMonthFind(str);
-        dateArrays[2] = foundDaysInMonth;
-
         monthFind(str);
         dateArrays[1] = foundMonth;
+        daysOfMonthFind(str);
+        dateArrays[2] = foundDaysInMonth;
 
         return dateArrays;
     }
@@ -114,7 +161,7 @@ public class Finder implements Externalizable {
      *          string in which month is finding.
      */
     public void monthFind(String str) {
-        String monthFind = "";
+        String monthFind;
         String monthsPattern = "((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)" +
                 "?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?))";
         Pattern myPattern = Pattern.compile(monthsPattern);
@@ -167,18 +214,15 @@ public class Finder implements Externalizable {
     }
 
     /**
-     * Method to serialize ////.
+     * Method to serialize values from {@code dateArrays}.
      *
      * @param   out
-     *          the stream to write the object to.
+     *          the stream to write the values to.
      * @throws  IOException
      *          Includes any I/O exceptions that may occur.
      */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        dateArrays[0] = 1;
-        dateArrays[0] = 123;
-        dateArrays[0] = 2;
         out.writeInt(dateArrays[0]);
         out.writeInt(dateArrays[1]);
         out.writeInt(dateArrays[2]);
@@ -186,7 +230,7 @@ public class Finder implements Externalizable {
 
     /**
      * Method to deserialize data from {@code ObjectInput in} and write written
-     * values into fields {@code name, email and zip}.
+     * values into field {@code dateArrays}.
      *
      * @param   in
      *          the stream to read data from in order to restore the object.
@@ -195,9 +239,9 @@ public class Finder implements Externalizable {
      */
     @Override
     public void readExternal(ObjectInput in) throws IOException {
-        dateArrays[0] = in.read();
-        dateArrays[1] = in.read();
-        dateArrays[2] = in.read();
+        dateArrays[0] = in.readInt();
+        dateArrays[1] = in.readInt();
+        dateArrays[2] = in.readInt();
     }
 }
 

@@ -17,6 +17,21 @@ public class DateCompareJava8 {
     public static final Logger LOG = LogManager
             .getLogger(DateCompareJava8.class.getName());
 
+    /** Field of string with information about date compare. */
+    private String logInf;
+
+    /** Field of result of date compare. */
+    private String result;
+
+    /**
+     * Method to get {@code logInf}.
+     *
+     * @return value of field {@code logInf}.
+     */
+    public String getLogInf() {
+        return logInf;
+    }
+
     /**
      * This method count max num of days in the given month in the given year
      * and return {@code daysInMonth}. Also, if param {@code daysToCheck} is
@@ -37,10 +52,24 @@ public class DateCompareJava8 {
         YearMonth yearMonthObj = YearMonth.of(year, month);
         int daysInMonth = yearMonthObj.lengthOfMonth();
         if (daysToCheck > daysInMonth) {
-            LOG.info("Incorrect number of days in " + yearMonthObj.getMonth()
-                    + " in " + yearMonthObj.getYear());
-            LOG.info("The largest number in this year: " + daysInMonth);
+            result = "INCORRECT";
+        } else {
+            result = "CORRECT";
         }
+        assignLogInfValue(daysToCheck, daysInMonth, month, year, yearMonthObj);
+        LOG.info(logInf);
         return daysInMonth;
+    }
+
+    private void assignLogInfValue(int daysToCheck, int daysInMonth,
+                                int month, int year, YearMonth yearMonthObj) {
+        logInf = "Actual date: " + daysToCheck + "."
+                + month + "." + year + "\nThere are "
+                + result + " number of days in " + yearMonthObj.getMonth()
+                + " in " + yearMonthObj.getYear() + "!"
+                + "\nThe largest number" + " of days in this month "
+                + "in this year: " + daysInMonth
+                + "\nComparison was made by "
+                + getClass().getName() + " class.";
     }
 }

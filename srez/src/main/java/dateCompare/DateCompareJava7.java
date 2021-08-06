@@ -87,6 +87,8 @@ public class DateCompareJava7 {
                 + calendar.getDisplayName(Calendar.MONTH,
                 Calendar.LONG, Locale.ENGLISH) + " in "
                 + calendar.get(Calendar.YEAR) + "!" + "\nThe largest number" +
-                " of days in this month in this year: " + daysInMonth;
+                " of days in this month in this year: " + daysInMonth
+                + "\nComparison was made by "
+                + getClass().getName() + " class.";
     }
 }
