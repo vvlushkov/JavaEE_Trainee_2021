@@ -81,7 +81,7 @@ public class DateCompareJava7 {
      */
     private void assignLogInfValue(int daysToCheck, int daysInMonth,
                                    int month, int year, Calendar calendar) {
-        logInf = "Actual date: " + daysToCheck + "."
+        logInf = "\nActual date: " + daysToCheck + "."
                 + month + "." + year + "\nThere are "
                 + result + " number of days in "
                 + calendar.getDisplayName(Calendar.MONTH,

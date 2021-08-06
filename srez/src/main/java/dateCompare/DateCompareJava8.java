@@ -63,7 +63,7 @@ public class DateCompareJava8 {
 
     private void assignLogInfValue(int daysToCheck, int daysInMonth,
                                 int month, int year, YearMonth yearMonthObj) {
-        logInf = "Actual date: " + daysToCheck + "."
+        logInf = "\nActual date: " + daysToCheck + "."
                 + month + "." + year + "\nThere are "
                 + result + " number of days in " + yearMonthObj.getMonth()
                 + " in " + yearMonthObj.getYear() + "!"
