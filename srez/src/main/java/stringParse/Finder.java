@@ -48,6 +48,18 @@ public class Finder implements Externalizable {
         return dateArrays;
     }
 
+    public int getFoundDaysInMonth() {
+        return foundDaysInMonth;
+    }
+
+    public int getFoundMonth() {
+        return foundMonth;
+    }
+
+    public int getFoundYear() {
+        return foundYear;
+    }
+
     /**
      * This method find date in string
      * and return array with info about this date.
@@ -133,8 +145,6 @@ public class Finder implements Externalizable {
         }
     }
 
-
-
     /**
      * This method cast name of month from string
      * to its number in calendar.
@@ -166,7 +176,12 @@ public class Finder implements Externalizable {
      */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-
+        dateArrays[0] = 1;
+        dateArrays[0] = 123;
+        dateArrays[0] = 2;
+        out.writeInt(dateArrays[0]);
+        out.writeInt(dateArrays[1]);
+        out.writeInt(dateArrays[2]);
     }
 
     /**
@@ -177,12 +192,12 @@ public class Finder implements Externalizable {
      *          the stream to read data from in order to restore the object.
      * @throws  IOException
      *          if I/O errors occur.
-     * @throws  ClassNotFoundException
-     *          If the class for an object being restored cannot be found.
      */
     @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-
+    public void readExternal(ObjectInput in) throws IOException {
+        dateArrays[0] = in.read();
+        dateArrays[1] = in.read();
+        dateArrays[2] = in.read();
     }
 }
 

@@ -23,4 +23,14 @@ public class FinderTest {
         String month = "Jan";
         LOG.info(finder.castMonths(month));
     }
+
+    @Test
+    public void writeExternalTest() {
+
+    }
+
+    @Test
+    public void readExternalTest() {
+
+    }
 }
