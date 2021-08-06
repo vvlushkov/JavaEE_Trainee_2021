@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 public class Finder implements Externalizable {
+
     /**
      * Field to use Logging
      */

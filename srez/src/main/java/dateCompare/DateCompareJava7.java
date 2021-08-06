@@ -13,6 +13,7 @@ import java.util.Locale;
  * @version 1.0
  */
 public class DateCompareJava7 {
+
     /**
      * Field to use Logging
      */

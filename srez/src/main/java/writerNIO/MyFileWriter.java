@@ -20,9 +20,9 @@ public class MyFileWriter {
      * This method write info into file using NIO methods.
      *
      * @param   fileName
-     *          name of file with full path
+     *          name of file with full path.
      * @param   str
-     *          string that need to write into file
+     *          string that need to write into file.
      */
     public void writeToFile(String fileName, String str) {
         List<String> lines = Arrays.asList(str);

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  * Contains methods to do informational strings.
  */
 public class InformationalStringMaker implements StringMaker<Object> {
+
     /**
      * Field for logging.
      */

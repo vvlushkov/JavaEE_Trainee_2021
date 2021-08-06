@@ -11,6 +11,7 @@ package interfaces;
  *
  */
 public interface StringMaker<T> {
+
     /** Field of separator between field and its value. */
     java.lang.String FIELD_VALUE_SEPARATOR = " : ";
 

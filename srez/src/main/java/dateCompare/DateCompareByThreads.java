@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
  * Used to compare dates by Java7 and Java8 technologies in parallel threads.
  */
 public class DateCompareByThreads extends Thread {
+
     /**
      * Field to use Logging.
      */
