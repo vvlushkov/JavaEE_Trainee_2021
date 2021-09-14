@@ -18,17 +18,17 @@ public abstract class GenericPostgresJdbcDao<E> implements Dao<E> {
     /**
      * Method initialize {@code connection} with single tone DataBase manager.
      * @see DataBaseConnection
-     *
-     * @param connection the connection to DB that need to initialize.
      */
-    public Connection setConnection(Connection connection) {
-        {
-            try {
-                connection = DataBaseConnection.getInstance().getConnection();
-                connection.setAutoCommit(false);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+    Connection connection;
+
+    public Connection setConnection() {
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return connection;
     }

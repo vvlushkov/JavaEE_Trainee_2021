@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements UserDao {
     /** Connection to DB. */
-    Connection connection;
 
     //Create
     /**
@@ -30,7 +29,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public void create(User entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO public.\"User_Table\" (user_ID, " +
                 "login, user_password, email, firstName, lastName, " +
@@ -59,6 +58,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -74,7 +74,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public List<User> findAll() {
-        connection = setConnection(connection);
+        connection = setConnection();
         List<User> usersList = new ArrayList<>();
         String sql = "SELECT * FROM public.\"User_Table\";";
         Statement statement = null;
@@ -104,6 +104,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -120,7 +121,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findById(Long id) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM public.\"User_Table\" WHERE user_ID = ?;";
         User user = new User();
@@ -149,6 +150,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -165,7 +167,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findByLogin(String login) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM public.\"User_Table\" WHERE login = ?;";
         User user = new User();
@@ -194,6 +196,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -210,7 +213,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findByEmail(String email) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM public.\"User_Table\" WHERE email = ?;";
         User user = new User();
@@ -239,6 +242,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -256,7 +260,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public void update(User entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "UPDATE public.\"User_Table\" SET login = ?, " +
                 "user_password = ?, email = ?, firstName = ?, lastName = ?," +
@@ -285,6 +289,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -301,7 +306,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public void remove(User entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM public.\"User_Table\" WHERE user_ID = ?;";
         try {
@@ -319,6 +324,7 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 }
             }
             try {
+                connection.commit();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();

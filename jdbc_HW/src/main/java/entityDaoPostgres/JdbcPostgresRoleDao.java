@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements RoleDao {
     /** Connection to DB. */
-    Connection connection;
 
     //create
     /**
@@ -30,7 +29,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void create(Role entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO public.\"Role_Table\" (role_ID, " +
                 "role_name) VALUES (?, ?);";
@@ -56,7 +55,6 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
                 e.printStackTrace();
             }
         }
-
     }
 
     //read
@@ -67,7 +65,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public List<Role> findAll() {
-        connection = setConnection(connection);
+        connection = setConnection();
         List<Role> rolesList = new ArrayList<>();
         String sql = "SELECT * FROM public.\"Role_Table\";";
         Statement statement = null;
@@ -108,7 +106,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public Role findById(Long id) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM public.\"Role_Table\" WHERE role_ID = ?;";
         Role role = new Role();
@@ -148,7 +146,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public Role findByName(String name) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM public.\"Role_Table\" WHERE role_name = ?;";
         Role role = new Role();
@@ -189,7 +187,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void update(Role entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "UPDATE public.\"Role_Table\" SET role_name = ?" +
                 " WHERE role_ID = ?";
@@ -226,7 +224,7 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void remove(Role entity) {
-        connection = setConnection(connection);
+        connection = setConnection();
         PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM public.\"Role_Table\" WHERE role_ID = ?;";
         try {
