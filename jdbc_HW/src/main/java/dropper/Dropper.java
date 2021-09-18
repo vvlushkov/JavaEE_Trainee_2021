@@ -21,7 +21,7 @@ public class Dropper {
      * Field to use logging functions.
      */
     private static final Logger LOG = LogManager
-            .getLogger(Creator.class.getName());
+            .getLogger(Dropper.class.getName());
     /** Resource bundle to file with properties of DB. */
     private static final ResourceBundle resource = ResourceBundle.getBundle("jdbc");
     /** URL of DB */
@@ -32,8 +32,8 @@ public class Dropper {
     private static final String PASSWORD = resource.getString("db.password");
     /** Field with our SQL query. */
     private static final String SQL_TABLES_CREATOR = "DROP TABLE" +
-            " IF EXISTS public.\"User_Table\";\n" +
-            "DROP TABLE IF EXISTS public.\"Role_Table\";";
+            " IF EXISTS public.\"USER_TABLE\";\n" +
+            "DROP TABLE IF EXISTS public.\"ROLE_TABLE\";";
 
     /**
      * Starting point of Dropper. Executes {@code dropTables} method.

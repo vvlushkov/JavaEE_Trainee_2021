@@ -22,16 +22,16 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
 
     //Create
     /**
-     * Creates tuple in table Role_Table in DB
+     * Creates tuple in table User_Table in DB
      * by data from parameter {@code entity}.
      *
      * @param entity the entity that need to create in DB.
      */
     @Override
     public void create(User entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "INSERT INTO public.\"User_Table\" (user_ID, " +
+        String sql = "INSERT INTO public.\"USER_TABLE\" (user_ID, " +
                 "login, user_password, email, firstName, lastName, " +
                 "birth_date, role_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         try {
@@ -74,9 +74,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public List<User> findAll() {
-        connection = setConnection();
+        connection = getPoolConnection();
         List<User> usersList = new ArrayList<>();
-        String sql = "SELECT * FROM public.\"User_Table\";";
+        String sql = "SELECT * FROM public.\"USER_TABLE\";";
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -121,9 +121,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findById(Long id) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM public.\"User_Table\" WHERE user_ID = ?;";
+        String sql = "SELECT * FROM public.\"USER_TABLE\" WHERE user_ID = ?;";
         User user = new User();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -167,9 +167,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findByLogin(String login) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM public.\"User_Table\" WHERE login = ?;";
+        String sql = "SELECT * FROM public.\"USER_TABLE\" WHERE login = ?;";
         User user = new User();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -213,9 +213,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public User findByEmail(String email) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM public.\"User_Table\" WHERE email = ?;";
+        String sql = "SELECT * FROM public.\"USER_TABLE\" WHERE email = ?;";
         User user = new User();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -260,9 +260,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public void update(User entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "UPDATE public.\"User_Table\" SET login = ?, " +
+        String sql = "UPDATE public.\"USER_TABLE\" SET login = ?, " +
                 "user_password = ?, email = ?, firstName = ?, lastName = ?," +
                 " birth_date = ?, role_ID = ? WHERE user_ID = ?";
         try {
@@ -306,9 +306,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
      */
     @Override
     public void remove(User entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "DELETE FROM public.\"User_Table\" WHERE user_ID = ?;";
+        String sql = "DELETE FROM public.\"USER_TABLE\" WHERE user_ID = ?;";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, entity.getId());

@@ -5,6 +5,7 @@ import creator.Creator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -13,11 +14,6 @@ import java.util.ResourceBundle;
  * Single tone DB connection manager with Connection Pool.
  */
 public class DataBaseConnection {
-    /**
-     * Field to use logging functions.
-     */
-    private static final Logger LOG = LogManager
-            .getLogger(Creator.class.getName());
     /** Resource bundle to file with properties of DB. */
     private static final ResourceBundle resource = ResourceBundle.getBundle("jdbc");
     /** URL of DB */
@@ -34,6 +30,12 @@ public class DataBaseConnection {
     private static final ComboPooledDataSource CPDS = new ComboPooledDataSource();
 
     static {
+        try {
+            CPDS.setDriverClass("org.h2.Driver");
+        } catch (PropertyVetoException e) {
+            System.out.println("LALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALALA");
+            e.printStackTrace();
+        }
         CPDS.setJdbcUrl(URL);
         CPDS.setUser(USERNAME);
         CPDS.setPassword(PASSWORD);
@@ -43,8 +45,13 @@ public class DataBaseConnection {
      * @return connection from Connection Pool.
      * @throws SQLException some SQL exceptions.
      */
-    public static Connection getConnection() throws SQLException {
-        return CPDS.getConnection();
+    public static Connection getConnection() {
+        try {
+            return CPDS.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     /**

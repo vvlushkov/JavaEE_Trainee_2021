@@ -22,7 +22,7 @@ public abstract class GenericPostgresJdbcDao<E> implements Dao<E> {
 
     Connection connection;
 
-    public Connection setConnection() {
+    public Connection getPoolConnection() {
         Connection connection = null;
         try {
             connection = DataBaseConnection.getInstance().getConnection();

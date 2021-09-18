@@ -1,6 +1,9 @@
 package entityDaoPostgres;
 
+import dropper.Dropper;
 import interfacesDaoPostgres.RoleDao;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import tables.Role;
 
 import java.sql.*;
@@ -20,6 +23,12 @@ import java.util.List;
 public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements RoleDao {
     /** Connection to DB. */
 
+    /**
+     * Field to use logging functions.
+     */
+    private static final Logger LOG = LogManager
+            .getLogger(JdbcPostgresRoleDao.class.getName());
+
     //create
     /**
      * Creates tuple in table Role_Table in DB
@@ -29,9 +38,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void create(Role entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "INSERT INTO public.\"Role_Table\" (role_ID, " +
+        String sql = "INSERT INTO public.`ROLE_TABLE` (role_ID, " +
                 "role_name) VALUES (?, ?);";
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -39,7 +48,10 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
             preparedStatement.setString(2, entity.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
+            LOG.error("SQLState: " + e.getSQLState());
+            LOG.error("Error Code: " + e.getErrorCode());
+            LOG.error("Message: " + e.getMessage());
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -65,9 +77,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public List<Role> findAll() {
-        connection = setConnection();
+        connection = getPoolConnection();
         List<Role> rolesList = new ArrayList<>();
-        String sql = "SELECT * FROM public.\"Role_Table\";";
+        String sql = "SELECT * FROM public.\"ROLE_TABLE\";";
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -106,9 +118,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public Role findById(Long id) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM public.\"Role_Table\" WHERE role_ID = ?;";
+        String sql = "SELECT * FROM public.\"ROLE_TABLE\" WHERE role_ID = ?;";
         Role role = new Role();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -146,9 +158,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public Role findByName(String name) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM public.\"Role_Table\" WHERE role_name = ?;";
+        String sql = "SELECT * FROM public.\"ROLE_TABLE\" WHERE role_name = ?;";
         Role role = new Role();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -187,9 +199,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void update(Role entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "UPDATE public.\"Role_Table\" SET role_name = ?" +
+        String sql = "UPDATE public.\"ROLE_TABLE\" SET role_name = ?" +
                 " WHERE role_ID = ?";
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -224,9 +236,9 @@ public class JdbcPostgresRoleDao extends GenericPostgresJdbcDao<Role> implements
      */
     @Override
     public void remove(Role entity) {
-        connection = setConnection();
+        connection = getPoolConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "DELETE FROM public.\"Role_Table\" WHERE role_ID = ?;";
+        String sql = "DELETE FROM public.\"ROLE_TABLE\" WHERE role_ID = ?;";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, entity.getId());

@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
  * Main class
  */
 public class Main {
-    /** URL of DB */
-    private static final String url = "jdbc:postgresql://localhost:5432/nixHW";
-    /** Username to log in DB */
-    private static final String user = "postgres";
-    /** Password to log in DB */
-    private static final String password = "root";
+//    /** URL of DB */
+//    private static final String url = "jdbc:postgresql://localhost:5432/nixHW";
+//    /** Username to log in DB */
+//    private static final String user = "postgres";
+//    /** Password to log in DB */
+//    private static final String password = "root";
 
     /**
      * Field to use logging functions.
@@ -42,16 +42,11 @@ public class Main {
 
         String storage = "Postgres";
         DaoFactory daoFactory = createDaoFactoryByResource(storage);
-        UserDao userDao = daoFactory.getUserDao();
         RoleDao roleDao = daoFactory.getRoleDao();
-
         Role role1 = new Role();
-        User user1 = new User();
 
         Dropper.main(null);
         Creator.main(null);
-
-
 
         //Пример работы на таблице ролей
         role1.setId(1L);
@@ -77,10 +72,10 @@ public class Main {
         LOG.info("Entity with ID = 2:");
         LOG.info(roleDao.findById(2L));
 
-        roleDao.remove(role1);
-        LOG.info("After removing last entity:");
-        roleList = roleDao.findAll();
-        LOG.info(roleList.toString());
+//        roleDao.remove(role1);
+//        LOG.info("After removing last entity:");
+//        roleList = roleDao.findAll();
+//        LOG.info(roleList.toString());
     }
 
     /**
