@@ -11,6 +11,7 @@ public class RoleDaoTest {
     public RoleDaoTest() throws Exception {
     }
 
+    //просто базовая проверка работостпособности методом
     @Test
     public void roleTest() throws Exception {
         List<Role> list = roleDao.findAll();

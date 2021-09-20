@@ -1,14 +1,8 @@
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.Date;
 import creator.Creator;
 import entityDaoPostgres.JdbcPostgresRoleDao;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import entityDaoPostgres.JdbcPostgresUserDao;
 import org.dbunit.*;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -17,49 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import tables.Role;
+import tables.User;
 
 public class DataSetTest {
+
     private final JdbcPostgresRoleDao roleDao = new JdbcPostgresRoleDao();
+    private final JdbcPostgresUserDao userDao = new JdbcPostgresUserDao();
 
     private IDatabaseTester dbTester;
 
-//    /** URL of DB */
-//    private static final String url = "jdbc:h2:mem:test";
-//    /** Username to log in DB */
-//    private static final String user = "sa";
-//    /** Password to log in DB */
-//    private static final String password = "";
-//    private static final String SQL_TABLES_CREATOR =
-//            "DROP TABLE IF EXISTS USER_TABLE;\n" +
-//            "DROP TABLE IF EXISTS ROLE_TABLE;\n" +
-//            "CREATE TABLE IF NOT EXISTS ROLE_TABLE\n" +
-//            "(\n" +
-//            "    role_ID SERIAL PRIMARY KEY,\n" +
-//            "    role_name TEXT NOT NULL\n" +
-//            ");\n" +
-//            "\n" +
-//            "CREATE TABLE USER_TABLE\n" +
-//            "(\n" +
-//            "    user_ID SERIAL PRIMARY KEY,\n" +
-//            "    login VARCHAR(20) NOT NULL,\n" +
-//            "\tuser_password TEXT NOT NULL,\n" +
-//            "    email TEXT NOT NULL,\n" +
-//            "\tfirstName TEXT NOT NULL,\n" +
-//            "\tlastName TEXT NOT NULL,\n" +
-//            "    birth_date DATE NOT NULL,\n" +
-//            "\trole_ID INT NOT NULL," +
-//            "CONSTRAINT Unq_login UNIQUE (login),\n" +
-//            "\tFOREIGN KEY (role_ID) REFERENCES ROLE_TABLE (role_ID)\n" +
-//            ");";
-
-//    public DataSetTest(String name)
-//    {
-//        super( name );
-//        System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
-//        System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, user);
-//        System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, password);
-//        System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "public");
-//    }
 
     @BeforeClass
     public static void createSchema() throws Exception {
@@ -76,7 +36,7 @@ public class DataSetTest {
     }
 
     private IDataSet readDataSet() throws Exception {
-        String fileName = "role.xml";
+        String fileName = "data.xml";
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream file = classLoader.getResourceAsStream(fileName);
         return new FlatXmlDataSetBuilder().build(file);
@@ -92,9 +52,35 @@ public class DataSetTest {
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(
                 Thread.currentThread()
                       .getContextClassLoader()
-                      .getResourceAsStream("expectedRole.xml"));
+                      .getResourceAsStream("expectedData.xml"));
         roleDao.create(role);
         IDataSet actualData = dbTester.getConnection().createDataSet();
         Assertion.assertEquals(expectedData.getTable("ROLE_TABLE"), actualData.getTable("ROLE_TABLE"));
+    }
+
+    //тест с апгрейдом данных
+    @Test
+    public void userUpdateTest() throws Exception {
+        IDataSet expectedData = new FlatXmlDataSetBuilder().build(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResourceAsStream("expectedData.xml"));
+        IDataSet actualData = dbTester.getConnection().createDataSet();
+
+        //сейчас данные таблиц юзеров разнятся, и результат теста будет отрицательный(разные айдишники ролей)
+        //Создаю сущность которую передам в апдейт для исправления данныйх
+        User user = new User();
+        user.setId(1L);
+        user.setLogin("alex007");
+        user.setPassword("qwerty007");
+        user.setEmail("alex007@gmail.com");
+        user.setFirstName("Alex");
+        user.setLastName("Agent");
+        Date date = Date.valueOf("2004-11-01");
+        user.setBirthday(date);
+        user.setRoleId(2L);
+        userDao.update(user);
+        //после апдейта выше результат теста будет положительным
+        Assertion.assertEquals(expectedData.getTable("USER_TABLE"), actualData.getTable("USER_TABLE"));
     }
 }

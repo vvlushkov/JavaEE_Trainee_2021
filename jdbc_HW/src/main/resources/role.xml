@@ -1,5 +1,0 @@
-<?xml version ="1.0" encoding="UTF-8"?>
-<dataset>
-    <ROLE_TABLE role_ID="1" role_name="Admin"/>
-    <ROLE_TABLE role_ID="2" role_name="Customer"/>
-</dataset>
