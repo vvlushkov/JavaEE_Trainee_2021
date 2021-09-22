@@ -1,5 +1,7 @@
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.List;
+
 import creator.Creator;
 import entityDaoPostgres.JdbcPostgresRoleDao;
 import entityDaoPostgres.JdbcPostgresUserDao;
@@ -12,6 +14,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import tables.Role;
 import tables.User;
+
+import static org.junit.Assert.assertEquals;
 
 public class DataSetTest {
 
@@ -42,45 +46,149 @@ public class DataSetTest {
         return new FlatXmlDataSetBuilder().build(file);
     }
 
-    //Тут показываю что разобрался с датасетами
-    //и сравниваю данные полученные из двух разных файлов
+
     @Test
-    public void roleDaoCreateTest() throws Exception {
-        Role role = new Role();
-        role.setName("Admin3");
-        role.setId(3L);
+    public void roleCreateTest() throws Exception {
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(
                 Thread.currentThread()
                       .getContextClassLoader()
-                      .getResourceAsStream("expectedData.xml"));
-        roleDao.create(role);
+                      .getResourceAsStream("expectedCreate.xml"));
         IDataSet actualData = dbTester.getConnection().createDataSet();
+        Role role = new Role();
+        role.setName("Admin3");
+        role.setId(3L);
+        roleDao.create(role);
+        //без создания сущности выше результат теста будет отрицательным
         Assertion.assertEquals(expectedData.getTable("ROLE_TABLE"), actualData.getTable("ROLE_TABLE"));
     }
 
-    //тест с апгрейдом данных
+    @Test
+    public void roleReadTest() throws Exception {
+        //тестировка считывания данных. Зависит от содержания data.xml
+        List<Role> list = roleDao.findAll();
+        assertEquals(2, list.size());
+        assertEquals(false, list.isEmpty());
+        assertEquals("Admin", list.get(0).getName());
+        assertEquals("Customer", list.get(1).getName());
+        assertEquals((Long)1L, list.get(0).getId());
+        assertEquals((Long)2L, list.get(1).getId());
+        Role role = roleDao.findById(1L);
+        assertEquals("Admin", role.getName());
+        role = roleDao.findByName("Customer");
+        assertEquals((Long)2L, role.getId());
+    }
+
+    @Test
+    public void roleUpdateTest() throws Exception {
+        IDataSet expectedData = new FlatXmlDataSetBuilder().build(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResourceAsStream("expectedUpdate.xml"));
+        IDataSet actualData = dbTester.getConnection().createDataSet();
+
+        Role role = new Role();
+        role.setId(2L);
+        role.setName("Customers");
+        roleDao.update(role);
+        //без апдейта выше результат теста будет отрицательным
+        Assertion.assertEquals(expectedData.getTable("ROLE_TABLE"), actualData.getTable("ROLE_TABLE"));
+    }
+
+    @Test
+    public void roleDeleteTest() throws Exception {
+        IDataSet expectedData = new FlatXmlDataSetBuilder().build(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResourceAsStream("expectedDelete.xml"));
+        IDataSet actualData = dbTester.getConnection().createDataSet();
+
+        Role role = new Role();
+        role.setId(2L);
+        roleDao.remove(role);
+        //без удаления выше результат теста будет отрицательным
+        Assertion.assertEquals(expectedData.getTable("ROLE_TABLE"), actualData.getTable("ROLE_TABLE"));
+    }
+
+
+    @Test
+    public void userCreateTest() throws Exception {
+        IDataSet expectedData = new FlatXmlDataSetBuilder().build(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResourceAsStream("expectedCreate.xml"));
+        IDataSet actualData = dbTester.getConnection().createDataSet();
+
+        User user = new User();
+        user.setId(3L);
+        user.setLogin("tester");
+        user.setPassword("tester");
+        user.setEmail("tester@mail.org");
+        user.setFirstName("Tester");
+        user.setLastName("Tester");
+        Date date = Date.valueOf("2001-01-01");
+        user.setBirthday(date);
+        user.setRoleId(1L);
+        userDao.create(user);
+        //после создания сущности выше результат теста будет положительным
+        Assertion.assertEquals(expectedData.getTable("USER_TABLE"), actualData.getTable("USER_TABLE"));
+
+    }
+
+    @Test
+    public void userReadTest() throws Exception {
+        //тестировка считывания данных. Зависит от содержания data.xml
+        List<User> list = userDao.findAll();
+        assertEquals(2, list.size());
+        assertEquals(false, list.isEmpty());
+        assertEquals("Alex", list.get(0).getFirstName());
+        assertEquals("Ivanova", list.get(1).getLastName());
+        assertEquals((Long)1L, list.get(0).getId());
+        assertEquals((Long)2L, list.get(1).getId());
+        User user = userDao.findByLogin("alex007");
+        assertEquals("alex007", user.getLogin());
+        user = userDao.findByEmail("masha@gmail.com");
+        assertEquals("masha@gmail.com", user.getEmail());
+        user = userDao.findById(1L);
+        assertEquals("Alex", user.getFirstName());
+    }
+
     @Test
     public void userUpdateTest() throws Exception {
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(
                 Thread.currentThread()
                         .getContextClassLoader()
-                        .getResourceAsStream("expectedData.xml"));
+                        .getResourceAsStream("expectedUpdate.xml"));
         IDataSet actualData = dbTester.getConnection().createDataSet();
 
-        //сейчас данные таблиц юзеров разнятся, и результат теста будет отрицательный(разные айдишники ролей)
-        //Создаю сущность которую передам в апдейт для исправления данныйх
         User user = new User();
         user.setId(1L);
         user.setLogin("alex007");
         user.setPassword("qwerty007");
         user.setEmail("alex007@gmail.com");
         user.setFirstName("Alex");
-        user.setLastName("Agent");
+        user.setLastName("Petrov");
         Date date = Date.valueOf("2004-11-01");
         user.setBirthday(date);
         user.setRoleId(2L);
         userDao.update(user);
         //после апдейта выше результат теста будет положительным
+        //(меняется роль и фамилия)
         Assertion.assertEquals(expectedData.getTable("USER_TABLE"), actualData.getTable("USER_TABLE"));
     }
+
+    @Test
+    public void userDeleteTest() throws Exception {
+        IDataSet expectedData = new FlatXmlDataSetBuilder().build(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResourceAsStream("expectedDelete.xml"));
+        IDataSet actualData = dbTester.getConnection().createDataSet();
+
+        User user = new User();
+        user.setId(2L);
+        userDao.remove(user);
+        //после удаления выше результат теста будет положительным
+        Assertion.assertEquals(expectedData.getTable("USER_TABLE"), actualData.getTable("USER_TABLE"));
+    }
+
 }
