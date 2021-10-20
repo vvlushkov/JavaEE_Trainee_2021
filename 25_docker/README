@@ -1,0 +1,4 @@
+First command:
+    docker build -t app .
+Second command:
+    docker-compose up
