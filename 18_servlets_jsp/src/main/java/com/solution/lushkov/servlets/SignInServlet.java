@@ -16,13 +16,17 @@ import java.util.List;
 
 @WebServlet(value = "/authorization")
 public class SignInServlet extends HttpServlet {
-
     private static final String indexJsp = "/WEB-INF/view/index.jsp";
+    UserDao userDao;
+    RoleDao roleDao;
+    boolean isValidate;
 
-    UserDao userDao = new JdbcPostgresUserDao();
-    RoleDao roleDao = new JdbcPostgresRoleDao();
-
-    boolean isValidate = true;
+    @Override
+    public void init() throws ServletException {
+        userDao = new JdbcPostgresUserDao();
+        roleDao = new JdbcPostgresRoleDao();
+        isValidate = true;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,9 +51,9 @@ public class SignInServlet extends HttpServlet {
             if ((roleDao.findById(roleId).getName().equalsIgnoreCase("admin"))
                     || (roleDao.findById(roleId).getName()
                     .equalsIgnoreCase("administrator"))) {
-                response.sendRedirect("http://localhost:8080/adminPage");
+                response.sendRedirect("/adminPage");
             } else {
-                response.sendRedirect("http://localhost:8080/userPage");
+                response.sendRedirect("/userPage");
             }
         } else {
             isValidate = false;

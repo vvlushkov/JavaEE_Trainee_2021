@@ -16,7 +16,7 @@
             <img src="${pageContext.request.contextPath} /images/sticker.png" class="imgClass">
         </p>
         <p align="center">
-            <h3 align="center">Click <a href="http://localhost:8080/logout">here</a> to log out.</h3>
+            <h3 align="center">Click <a href="/logout">here</a> to log out.</h3>
         </p>
     </body>
 </html>

@@ -5,3 +5,5 @@ INSERT INTO role_table VALUES
 INSERT INTO user_table VALUES
     (1, 'admin', 'password', 'admin@email', 'Admin', 'Admin', '2000-01-01', 1),
     (2, 'user', 'password', 'user@email', 'User', 'User', '2000-01-01', 2);
+
+ALTER SEQUENCE user_table_user_id_seq RESTART WITH 3;

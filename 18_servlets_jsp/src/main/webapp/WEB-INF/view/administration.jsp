@@ -31,23 +31,23 @@
         </style>
     </head>
     <body>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <h1 align="center">Hello, ${sessionScope.userLastName}! What are you want to do?</h1><br>
         <p align="right" class="simpleClassParag">
             ${sessionScope.userFirstName} ${sessionScope.userLastName}
-                (<a href="http://localhost:8080/logout">Logout</a>)
+                (<a href="/logout">Logout</a>)
         </p>
-        <p class="anotherParagClass">
-            <a href="http://localhost:8080/createUser">Add user</a>
-        </p>
+
         <table align="center" border="3px">
+            <tr>
+                <th class="mr-auto">
+                    <a href="/createUser">Add user</a>
+                </th>
+            </tr>
             <tr>
                 <th>Login</th>
                 <th>First name</th>
-                <th>Second name</th>
-                <th>Birthday</th>
+                <th>Last name</th>
+                <th>Age</th>
                 <th>Role</th>
                 <th>Actions</th>
             </tr>
@@ -56,7 +56,7 @@
                 <td>${user.login}</td>
                 <td>${user.firstName}</td>
                 <td>${user.lastName}</td>
-                <td>${user.birthday}</td>
+                <td><dbutils:ageTag age="${user.birthday}"/></td>
                 <td><dbutils:getRoleName role_Id="${user.roleId}"/></td>
                 <td>
                     <div class="displayBlock">
@@ -98,5 +98,9 @@
             </tr>
             </c:forEach>
         </table>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>

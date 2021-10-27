@@ -3,7 +3,6 @@ package com.solution.lushkov.servlets;
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
 import com.solution.lushkov.tables.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +13,6 @@ import java.io.IOException;
 
 @WebServlet(value = "/delete")
 public class DeleteUserServlet extends HttpServlet {
-
-    private static final String adminJsp = "/WEB-INF/view/administration.jsp";
     private static final String errorJsp = "/WEB-INF/view/deleteError.jsp";
 
     UserDao userDao;
@@ -37,7 +34,7 @@ public class DeleteUserServlet extends HttpServlet {
         } else {
             user.setId(user_Id);
             userDao.remove(user);
-            response.sendRedirect("http://localhost:8080/adminPage");
+            response.sendRedirect("/adminPage");
         }
     }
 

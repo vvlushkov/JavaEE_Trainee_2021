@@ -5,13 +5,11 @@ import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
 import com.solution.lushkov.tables.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,10 +30,6 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String login = (String)request.getSession().getAttribute("login");
-//        User user = userDao.findByLogin(login);
-//        request.setAttribute("userFirstName", user.getFirstName());
-//        request.setAttribute("userLastName", user.getLastName());
         List<User> usersList = userDao.findAll();
         request.setAttribute("usersList", usersList);
         request.getRequestDispatcher(adminJsp).forward(request, response);

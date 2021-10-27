@@ -11,14 +11,13 @@ import java.io.IOException;
 @WebServlet(value = "/logout")
 public class LogOutServlet extends HttpServlet {
 
-    private static final String indexJsp = "/WEB-INF/view/index.jsp";
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if(session != null) {
             session.invalidate();
         }
-        response.sendRedirect("http://localhost:8080/authorization");
+        response.sendRedirect("/authorization");
     }
 }

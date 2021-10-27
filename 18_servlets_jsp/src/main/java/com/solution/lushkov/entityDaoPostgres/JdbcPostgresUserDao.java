@@ -44,7 +44,6 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
                 "birth_date, role_ID) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try {
             preparedStatement = connection.prepareStatement(sql);
-
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getEmail());

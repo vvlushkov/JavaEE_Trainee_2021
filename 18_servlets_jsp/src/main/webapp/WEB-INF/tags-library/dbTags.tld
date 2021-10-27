@@ -27,4 +27,28 @@
 <!--            <rtexprvalue>true</rtexprvalue>-->
         </attribute>
     </tag>
+    <tag>
+        <name>chosenRoleTag</name>
+        <tag-class>com.solution.lushkov.dbTags.ChosenRoleTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>roleName</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>userRoleId</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>ageTag</name>
+        <tag-class>com.solution.lushkov.dbTags.AgeTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>age</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

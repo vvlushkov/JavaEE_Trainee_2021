@@ -55,8 +55,6 @@ public class UpdateUserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         final User user = (User)session.getAttribute("userToUpdate");
 
-        //User user = (User)request.getAttribute("user");
-
         user.setEmail(request.getParameter("email"));
         if (request.getParameter("password") != null) {
             user.setPassword(request.getParameter("password"));
@@ -69,6 +67,9 @@ public class UpdateUserServlet extends HttpServlet {
         Role role = roleDao.findByName(roleName);
         user.setRoleId(role.getId());
         userDao.update(user);
-        response.sendRedirect("http://localhost:8080/adminPage");
+        if (session.getAttribute("login").equals(user.getLogin())) {
+            session.setAttribute("password", user.getPassword());
+        }
+        response.sendRedirect("/adminPage");
     }
 }

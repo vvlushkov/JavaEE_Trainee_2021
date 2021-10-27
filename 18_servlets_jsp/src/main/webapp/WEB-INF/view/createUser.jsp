@@ -57,7 +57,7 @@
         </p>
         <p align="right" class="simpleClassParag">
             ${sessionScope.userFirstName} ${sessionScope.userLastName}
-            (<a href="http://localhost:8080/logout">Logout</a>)
+            (<a href="/logout">Logout</a>)
         </p>
         <form class="classForm"  method="post" action="/createUser">
             <div class="classDiv">
