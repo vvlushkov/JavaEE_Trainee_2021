@@ -57,7 +57,7 @@
                 <td>${user.firstName}</td>
                 <td>${user.lastName}</td>
                 <td><dbutils:ageTag age="${user.birthday}"/></td>
-                <td><dbutils:getRoleName role_Id="${user.roleId}"/></td>
+                <td><dbutils:getRoleName roleId="${user.roleId}"/></td>
                 <td>
                     <div class="displayBlock">
                         <form class="formClass" method="get" action="/updateUser">

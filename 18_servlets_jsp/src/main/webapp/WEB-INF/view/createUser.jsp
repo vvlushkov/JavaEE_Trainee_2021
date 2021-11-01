@@ -82,7 +82,7 @@
                     <label for="email">Email</label><br>
                     <input type="email" id="email" name="email"
                            title="Contact's email (format: xxx@xxx.xxx)"
-                           pattern=".+@.+(\.[a-zA-Z0-9-]+)*"
+                           pattern=".+@.+(\.[a-zA-Z0-9-]+)+"
                            required placeholder="Your E-mail" >
                 </p>
                 <p class="classParag">

@@ -31,6 +31,7 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        isValidate = true;
         request.setAttribute("isValidate", isValidate);
         request.getRequestDispatcher(indexJsp).forward(request, response);
     }

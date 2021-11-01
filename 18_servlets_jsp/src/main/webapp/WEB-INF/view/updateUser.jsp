@@ -71,7 +71,7 @@
                     <label for="password">Enter New Password</label><br>
                     <input type="password" id="password" name="password"
                            onChange="onChange()" value="${user.password}"
-                           placeholder="Your password" >
+                           placeholder="Your password" required>
                 </p>
                 <p class="classParag">
                     <label for="confirm_password">Enter Password Again</label><br>
@@ -83,7 +83,7 @@
                     <label for="email">Email</label><br>
                     <input type="email" id="email" name="email"
                            title="Contact's email (format: xxx@xxx.xxx)"
-                           pattern=".+@.+(\.[a-zA-Z0-9-]+)*" value="${user.email}"
+                           pattern=".+@.+(\.[a-zA-Z0-9-]+)+" value="${user.email}"
                            required placeholder="Your E-mail" >
                 </p>
                 <p class="classParag">

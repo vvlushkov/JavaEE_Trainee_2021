@@ -12,26 +12,15 @@
         <tag-class>com.solution.lushkov.dbTags.GetRoleNameTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
-            <name>role_Id</name>
+            <name>roleId</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
-    <tag>
-        <name>deleteUser</name>
-        <tag-class>com.solution.lushkov.dbTags.DeleteUserByTag</tag-class>
-        <body-content>empty</body-content>
-        <attribute>
-            <name>user_Id</name>
-            <required>true</required>
-<!--            <rtexprvalue>true</rtexprvalue>-->
         </attribute>
     </tag>
     <tag>
         <name>chosenRoleTag</name>
         <tag-class>com.solution.lushkov.dbTags.ChosenRoleTag</tag-class>
         <body-content>empty</body-content>
-
         <attribute>
             <name>roleName</name>
             <rtexprvalue>true</rtexprvalue>

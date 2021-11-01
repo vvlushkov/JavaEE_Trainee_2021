@@ -69,6 +69,8 @@ public class UpdateUserServlet extends HttpServlet {
         userDao.update(user);
         if (session.getAttribute("login").equals(user.getLogin())) {
             session.setAttribute("password", user.getPassword());
+            session.setAttribute("userFirstName", user.getFirstName());
+            session.setAttribute("userLastName", user.getLastName());
         }
         response.sendRedirect("/adminPage");
     }

@@ -8,17 +8,17 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.*;
 
 public class GetRoleNameTag extends TagSupport {
-    private Long role_Id;
+    private Long roleId;
     RoleDao roleDao = new JdbcPostgresRoleDao();
 
-    public void setRole_Id(Long role_Id) {
-        this.role_Id = role_Id;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
         try {
-            String roleName = roleDao.findById(role_Id).getName();
+            String roleName = roleDao.findById(roleId).getName();
             out.print(roleName);
         } catch (Exception e) {
             e.printStackTrace();

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/logout")
 public class LogOutServlet extends HttpServlet {
+    private static final String indexJsp = "/WEB-INF/view/authorization.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -18,6 +19,6 @@ public class LogOutServlet extends HttpServlet {
         if(session != null) {
             session.invalidate();
         }
-        response.sendRedirect("/authorization");
+        request.getRequestDispatcher(indexJsp).forward(request,response);
     }
 }
