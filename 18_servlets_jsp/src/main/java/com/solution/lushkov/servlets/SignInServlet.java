@@ -4,7 +4,7 @@ import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @WebServlet(value = "/authorization")
 public class SignInServlet extends HttpServlet {
-    private static final String indexJsp = "/WEB-INF/view/index.jsp";
+    private static final String indexJsp = "/WEB-INF/view/authorization.jsp";
     UserDao userDao;
     RoleDao roleDao;
     boolean isValidate;

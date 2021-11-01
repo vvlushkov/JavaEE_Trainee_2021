@@ -1,6 +1,6 @@
 package com.solution.lushkov.interfacesDaoPostgres;
 
-import com.solution.lushkov.tables.Role;
+import com.solution.lushkov.entity.Role;
 
 /**
  * Interface with additional CRUD methods for Role.

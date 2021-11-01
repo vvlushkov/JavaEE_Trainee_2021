@@ -1,7 +1,7 @@
 package com.solution.lushkov.interfacesDaoPostgres;
 
 
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 
 /**
  * Interface with additional CRUD methods for User.

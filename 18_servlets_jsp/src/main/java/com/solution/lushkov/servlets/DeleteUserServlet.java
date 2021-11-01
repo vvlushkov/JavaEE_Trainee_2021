@@ -2,7 +2,7 @@ package com.solution.lushkov.servlets;
 
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

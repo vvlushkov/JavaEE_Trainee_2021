@@ -4,8 +4,8 @@ import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.Role;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.Role;
+import com.solution.lushkov.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,9 +63,9 @@ public class UpdateUserServlet extends HttpServlet {
         user.setLastName(request.getParameter("lastName"));
         Date date = Date.valueOf(request.getParameter("birthday"));
         user.setBirthday(date);
-        String roleName = request.getParameter("chosenRole");
-        Role role = roleDao.findByName(roleName);
-        user.setRoleId(role.getId());
+//        String roleName = request.getParameter("chosenRole");
+//        Role role = roleDao.findByName(roleName);
+        user.setRoleId(Long.parseLong(request.getParameter("chosenRole")));
         userDao.update(user);
         if (session.getAttribute("login").equals(user.getLogin())) {
             session.setAttribute("password", user.getPassword());

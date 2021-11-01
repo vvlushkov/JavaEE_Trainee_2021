@@ -1,7 +1,7 @@
 package com.solution.lushkov.entityDaoPostgres;
 
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

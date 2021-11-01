@@ -2,7 +2,7 @@ package com.solution.lushkov.dbTags;
 
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;

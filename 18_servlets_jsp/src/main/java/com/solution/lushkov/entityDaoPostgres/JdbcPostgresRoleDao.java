@@ -1,7 +1,7 @@
 package com.solution.lushkov.entityDaoPostgres;
 
 import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
-import com.solution.lushkov.tables.Role;
+import com.solution.lushkov.entity.Role;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

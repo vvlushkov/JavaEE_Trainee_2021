@@ -1,4 +1,4 @@
-package com.solution.lushkov.tables;
+package com.solution.lushkov.entity;
 
 import java.util.Objects;
 
@@ -9,9 +9,7 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Role {
-    /** Role`s ID */
     private Long id;
-    /** Role`s name */
     private String name;
 
     /**

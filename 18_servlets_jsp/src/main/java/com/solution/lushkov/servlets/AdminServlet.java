@@ -4,7 +4,7 @@ import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
 import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
 import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
 import com.solution.lushkov.interfacesDaoPostgres.UserDao;
-import com.solution.lushkov.tables.User;
+import com.solution.lushkov.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

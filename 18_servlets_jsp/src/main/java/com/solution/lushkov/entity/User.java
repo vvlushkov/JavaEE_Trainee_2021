@@ -1,4 +1,4 @@
-package com.solution.lushkov.tables;
+package com.solution.lushkov.entity;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -10,21 +10,13 @@ import java.util.Objects;
  * @version 1.0
  */
 public class User {
-    /** ID of User */
     private Long id;
-    /** Unique login of User */
     private String login;
-    /** User`s Password */
     private String password;
-    /** User`s E-mail */
     private String email;
-    /** First name */
     private String firstName;
-    /** Last name */
     private String lastName;
-    /** Date of birthday */
     private Date birthday;
-    /** The Foreign Key from Role (entity) */
     private Long roleId;
 
     /**
