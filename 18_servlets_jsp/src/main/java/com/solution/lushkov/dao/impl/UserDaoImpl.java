@@ -1,6 +1,6 @@
-package com.solution.lushkov.entityDaoPostgres;
+package com.solution.lushkov.dao.impl;
 
-import com.solution.lushkov.interfacesDaoPostgres.UserDao;
+import com.solution.lushkov.dao.UserDao;
 import com.solution.lushkov.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,18 +15,31 @@ import java.util.List;
  * Class with realized CRUD methods for table User.
  * Extends GenericJdbcDao and implements UserDao.
  * @see User
- * @see GenericPostgresJdbcDao
+ * @see AbstractDaoImpl
  * @see UserDao
  *
  * @author Victor Lushkov
  * @version 1.0
  */
-public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements UserDao {
+public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     /**
      * Field to use logging functions.
      */
     private static final Logger LOG = LogManager
-            .getLogger(JdbcPostgresUserDao.class.getName());
+            .getLogger(UserDaoImpl.class.getName());
+
+    public static final String insertSql = "INSERT INTO user_table " +
+            "(login, user_password, email, firstName, lastName, " +
+            "birth_date, role_ID) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    public static final String findAllSql = "SELECT * FROM user_table;";
+    public static final String findByIdSql = "SELECT * FROM user_table WHERE user_ID = ?;";
+    public static final String findByLoginSql = "SELECT * FROM user_table WHERE login = ?;";
+    public static final String findByEmailSql = "SELECT * FROM user_table WHERE email = ?;";
+    public static final String updateSql = "UPDATE user_table SET login = ?, " +
+            "user_password = ?, email = ?, firstName = ?, lastName = ?," +
+            " birth_date = ?, role_ID = ? WHERE user_ID = ?";
+    public static final String deleteSql = "DELETE FROM user_table WHERE user_ID = ?;";
+
 
     //Create
     /**
@@ -39,19 +52,9 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public void create(User entity) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "INSERT INTO user_table " +
-                "(login, user_password, email, firstName, lastName, " +
-                "birth_date, role_ID) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setString(3, entity.getEmail());
-            preparedStatement.setString(4, entity.getFirstName());
-            preparedStatement.setString(5, entity.getLastName());
-            preparedStatement.setDate(6, entity.getBirthday());
-            preparedStatement.setLong(7, entity.getRoleId());
-
+            preparedStatement = connection.prepareStatement(insertSql);
+            setValuesInPreparedStatementWithoutId(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -70,21 +73,13 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public List<User> findAll() {
         connection = dataBaseConnection.getConnection();
         List<User> usersList = new ArrayList<>();
-        String sql = "SELECT * FROM user_table;";
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(findAllSql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getLong("user_ID"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setFirstName(resultSet.getString("firstName"));
-                user.setLastName(resultSet.getString("lastName"));
-                user.setBirthday(resultSet.getDate("birth_date"));
-                user.setRoleId(resultSet.getLong("role_ID"));
+                setUserValues(user, resultSet);
                 usersList.add(user);
             }
         } catch (SQLException e) {
@@ -105,21 +100,13 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public User findById(Long id) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM user_table WHERE user_ID = ?;";
         User user = new User();
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(findByIdSql);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                user.setId(resultSet.getLong("user_ID"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setFirstName(resultSet.getString("firstName"));
-                user.setLastName(resultSet.getString("lastName"));
-                user.setBirthday(resultSet.getDate("birth_date"));
-                user.setRoleId(resultSet.getLong("role_ID"));
+                setUserValues(user, resultSet);
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -139,21 +126,13 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public User findByLogin(String login) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM user_table WHERE login = ?;";
         User user = new User();
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(findByLoginSql);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                user.setId(resultSet.getLong("user_ID"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setFirstName(resultSet.getString("firstName"));
-                user.setLastName(resultSet.getString("lastName"));
-                user.setBirthday(resultSet.getDate("birth_date"));
-                user.setRoleId(resultSet.getLong("role_ID"));
+                setUserValues(user, resultSet);
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -173,21 +152,13 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public User findByEmail(String email) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM user_table WHERE email = ?;";
         User user = new User();
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(findByEmailSql);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                user.setId(resultSet.getLong("user_ID"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setFirstName(resultSet.getString("firstName"));
-                user.setLastName(resultSet.getString("lastName"));
-                user.setBirthday(resultSet.getDate("birth_date"));
-                user.setRoleId(resultSet.getLong("role_ID"));
+                setUserValues(user, resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,21 +179,10 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public void update(User entity) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "UPDATE user_table SET login = ?, " +
-                "user_password = ?, email = ?, firstName = ?, lastName = ?," +
-                " birth_date = ?, role_ID = ? WHERE user_ID = ?";
         try {
-            preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setString(3, entity.getEmail());
-            preparedStatement.setString(4, entity.getFirstName());
-            preparedStatement.setString(5, entity.getLastName());
-            preparedStatement.setDate(6, entity.getBirthday());
-            preparedStatement.setLong(7, entity.getRoleId());
+            preparedStatement = connection.prepareStatement(updateSql);
+            setValuesInPreparedStatementWithoutId(preparedStatement, entity);
             preparedStatement.setLong(8, entity.getId());
-
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -242,9 +202,8 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
     public void remove(User entity) {
         connection = dataBaseConnection.getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "DELETE FROM user_table WHERE user_ID = ?;";
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(deleteSql);
             preparedStatement.setLong(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -252,5 +211,28 @@ public class JdbcPostgresUserDao extends GenericPostgresJdbcDao<User> implements
         } finally {
             finallyClosing(preparedStatement, connection);
         }
+    }
+
+    private void setUserValues(User user, ResultSet resultSet)
+            throws SQLException {
+        user.setId(resultSet.getLong("user_ID"));
+        user.setLogin(resultSet.getString("login"));
+        user.setPassword(resultSet.getString("user_password"));
+        user.setEmail(resultSet.getString("email"));
+        user.setFirstName(resultSet.getString("firstName"));
+        user.setLastName(resultSet.getString("lastName"));
+        user.setBirthday(resultSet.getDate("birth_date"));
+        user.setRoleId(resultSet.getLong("role_ID"));
+    }
+
+    private void setValuesInPreparedStatementWithoutId(PreparedStatement preparedStatement, User entity)
+            throws SQLException {
+        preparedStatement.setString(1, entity.getLogin());
+        preparedStatement.setString(2, entity.getPassword());
+        preparedStatement.setString(3, entity.getEmail());
+        preparedStatement.setString(4, entity.getFirstName());
+        preparedStatement.setString(5, entity.getLastName());
+        preparedStatement.setDate(6, entity.getBirthday());
+        preparedStatement.setLong(7, entity.getRoleId());
     }
 }

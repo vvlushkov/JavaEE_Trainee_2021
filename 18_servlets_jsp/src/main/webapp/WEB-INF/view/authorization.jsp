@@ -34,7 +34,7 @@
         <div class="simpleClassDiv">
             <h1 align="center">Sign in to your account</h1><br/>
         </div>
-        <c:if test="${isValidate == false}">
+        <c:if test="${isValid == false}">
             <div class="simpleClassDiv">
                 <h2 align="center">Wrong login or password. Try again, please.</h2><br/>
             </div>

@@ -1,9 +1,9 @@
 package com.solution.lushkov.filters;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
-import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
-import com.solution.lushkov.interfacesDaoPostgres.UserDao;
+import com.solution.lushkov.dao.impl.RoleDaoImpl;
+import com.solution.lushkov.dao.impl.UserDaoImpl;
+import com.solution.lushkov.dao.RoleDao;
+import com.solution.lushkov.dao.UserDao;
 import com.solution.lushkov.entity.User;
 
 import javax.servlet.*;
@@ -23,8 +23,8 @@ public class ValidationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        roleDao = new JdbcPostgresRoleDao();
-        userDao = new JdbcPostgresUserDao();
+        roleDao = new RoleDaoImpl();
+        userDao = new UserDaoImpl();
         Filter.super.init(filterConfig);
     }
 

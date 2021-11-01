@@ -1,4 +1,4 @@
-package com.solution.lushkov.creator;
+package com.solution.lushkov.util;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -50,7 +50,6 @@ public class Creator {
             "\tFOREIGN KEY (role_ID) REFERENCES role_table (role_ID)\n" +
             ");";
 
-
     /**
      * Starting point of Creator. Executes {@code createTables} method.
      *
@@ -60,8 +59,6 @@ public class Creator {
         Creator creator = new Creator();
         creator.createTables();
         LOG.info("Tables in DB were created.");
-
-
     }
 
     /**

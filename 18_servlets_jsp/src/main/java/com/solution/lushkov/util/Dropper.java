@@ -1,4 +1,4 @@
-package com.solution.lushkov.dropper;
+package com.solution.lushkov.util;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -62,5 +62,4 @@ public class Dropper {
             }
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.solution.lushkov.dbConnection;
+package com.solution.lushkov.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.log4j.LogManager;
@@ -33,7 +33,6 @@ public class DataBaseConnection {
     private DataBaseConnection() { }
 
     private static final ComboPooledDataSource CPDS = new ComboPooledDataSource();
-
 
     static {
         try {

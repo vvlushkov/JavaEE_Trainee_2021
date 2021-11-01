@@ -1,4 +1,4 @@
-package com.solution.lushkov.interfacesDaoPostgres;
+package com.solution.lushkov.dao;
 
 
 import com.solution.lushkov.entity.User;

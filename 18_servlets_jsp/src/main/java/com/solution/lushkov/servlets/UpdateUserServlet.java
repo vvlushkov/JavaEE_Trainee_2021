@@ -1,9 +1,9 @@
 package com.solution.lushkov.servlets;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
-import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
-import com.solution.lushkov.interfacesDaoPostgres.UserDao;
+import com.solution.lushkov.dao.impl.RoleDaoImpl;
+import com.solution.lushkov.dao.impl.UserDaoImpl;
+import com.solution.lushkov.dao.RoleDao;
+import com.solution.lushkov.dao.UserDao;
 import com.solution.lushkov.entity.Role;
 import com.solution.lushkov.entity.User;
 
@@ -28,8 +28,8 @@ public class UpdateUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        userDao = new JdbcPostgresUserDao();
-        roleDao = new JdbcPostgresRoleDao();
+        userDao = new UserDaoImpl();
+        roleDao = new RoleDaoImpl();
     }
 
     @Override
@@ -63,8 +63,6 @@ public class UpdateUserServlet extends HttpServlet {
         user.setLastName(request.getParameter("lastName"));
         Date date = Date.valueOf(request.getParameter("birthday"));
         user.setBirthday(date);
-//        String roleName = request.getParameter("chosenRole");
-//        Role role = roleDao.findByName(roleName);
         user.setRoleId(Long.parseLong(request.getParameter("chosenRole")));
         userDao.update(user);
         if (session.getAttribute("login").equals(user.getLogin())) {

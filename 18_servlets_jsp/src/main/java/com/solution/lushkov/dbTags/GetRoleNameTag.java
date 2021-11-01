@@ -1,7 +1,7 @@
 package com.solution.lushkov.dbTags;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
-import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
+import com.solution.lushkov.dao.impl.RoleDaoImpl;
+import com.solution.lushkov.dao.RoleDao;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -9,7 +9,7 @@ import javax.servlet.jsp.tagext.*;
 
 public class GetRoleNameTag extends TagSupport {
     private Long roleId;
-    RoleDao roleDao = new JdbcPostgresRoleDao();
+    RoleDao roleDao = new RoleDaoImpl();
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;

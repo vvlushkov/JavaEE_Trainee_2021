@@ -1,8 +1,8 @@
-package com.solution.lushkov.entityDaoPostgres;
+package com.solution.lushkov.dao.impl;
 
 
-import com.solution.lushkov.dbConnection.DataBaseConnection;
-import com.solution.lushkov.interfacesDaoPostgres.Dao;
+import com.solution.lushkov.dao.Dao;
+import com.solution.lushkov.util.DataBaseConnection;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -18,12 +18,12 @@ import java.sql.SQLException;
  * @author Victor Lushkov
  * @version 1.0
  */
-public abstract class GenericPostgresJdbcDao<E> implements Dao<E> {
+public abstract class AbstractDaoImpl<E> implements Dao<E> {
     /**
      * Field to use logging functions.
      */
     private static final Logger LOG = LogManager
-            .getLogger(GenericPostgresJdbcDao.class.getName());
+            .getLogger(AbstractDaoImpl.class.getName());
 
     /**
      * Object of Connection that will be initialized in CRUD methods in DAO classes.
@@ -68,6 +68,5 @@ public abstract class GenericPostgresJdbcDao<E> implements Dao<E> {
                 LOG.error(e.getMessage(), e);
             }
         }
-
     }
 }

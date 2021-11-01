@@ -1,9 +1,9 @@
 package com.solution.lushkov.servlets;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
-import com.solution.lushkov.interfacesDaoPostgres.RoleDao;
-import com.solution.lushkov.interfacesDaoPostgres.UserDao;
+import com.solution.lushkov.dao.impl.RoleDaoImpl;
+import com.solution.lushkov.dao.impl.UserDaoImpl;
+import com.solution.lushkov.dao.RoleDao;
+import com.solution.lushkov.dao.UserDao;
 import com.solution.lushkov.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,20 +19,17 @@ public class SignInServlet extends HttpServlet {
     private static final String indexJsp = "/WEB-INF/view/authorization.jsp";
     UserDao userDao;
     RoleDao roleDao;
-    boolean isValidate;
 
     @Override
     public void init() throws ServletException {
-        userDao = new JdbcPostgresUserDao();
-        roleDao = new JdbcPostgresRoleDao();
-        isValidate = true;
+        userDao = new UserDaoImpl();
+        roleDao = new RoleDaoImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        isValidate = true;
-        request.setAttribute("isValidate", isValidate);
+        request.setAttribute("isValid", true);
         request.getRequestDispatcher(indexJsp).forward(request, response);
     }
 
@@ -57,8 +54,7 @@ public class SignInServlet extends HttpServlet {
                 response.sendRedirect("/userPage");
             }
         } else {
-            isValidate = false;
-            request.setAttribute("isValidate", isValidate);
+            request.setAttribute("isValid", false);
             request.getRequestDispatcher(indexJsp).forward(request, response);
         }
     }

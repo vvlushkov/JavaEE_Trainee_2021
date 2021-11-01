@@ -1,7 +1,7 @@
 package com.solution.lushkov.servlets;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresUserDao;
-import com.solution.lushkov.interfacesDaoPostgres.UserDao;
+import com.solution.lushkov.dao.impl.UserDaoImpl;
+import com.solution.lushkov.dao.UserDao;
 import com.solution.lushkov.entity.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class DeleteUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        userDao = new JdbcPostgresUserDao();
+        userDao = new UserDaoImpl();
     }
 
     @Override

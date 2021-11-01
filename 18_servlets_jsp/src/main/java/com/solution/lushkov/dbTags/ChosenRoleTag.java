@@ -1,6 +1,6 @@
 package com.solution.lushkov.dbTags;
 
-import com.solution.lushkov.entityDaoPostgres.JdbcPostgresRoleDao;
+import com.solution.lushkov.dao.impl.RoleDaoImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import javax.servlet.jsp.JspWriter;
@@ -13,7 +13,7 @@ public class ChosenRoleTag extends TagSupport {
 
     private String roleName;
     private Long userRoleId;
-    private final JdbcPostgresRoleDao roleDao = new JdbcPostgresRoleDao();
+    private final RoleDaoImpl roleDao = new RoleDaoImpl();
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
