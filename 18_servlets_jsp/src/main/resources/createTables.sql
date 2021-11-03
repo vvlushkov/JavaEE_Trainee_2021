@@ -18,4 +18,4 @@ CREATE TABLE IF NOT EXISTS user_table
     birth_date DATE NOT NULL,
     role_ID INT NOT NULL,
     FOREIGN KEY (role_ID) REFERENCES role_table (role_ID)
-    );
+);
