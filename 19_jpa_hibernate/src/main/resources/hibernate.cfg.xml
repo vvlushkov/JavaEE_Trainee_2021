@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+
+        <!-- 1st url to work with local DB -->
+<!--        <property name="connection.url">jdbc:postgresql://localhost:5432/hibernateHW</property>-->
+
+        <!-- 2nd url to work with docker -->
+        <property name="connection.url">jdbc:postgresql://db:5432/postgres</property>
+
+        <!-- 3rd url to work with tests -->
+<!--        <property name="connection.url">jdbc:postgresql://localhost:5432/hibernateTest</property>-->
+
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.c3p0.min_size">10</property>
+        <property name="hibernate.c3p0.max_size">25</property>
+        <property name="hibernate.c3p0.acquire_increment">5</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <mapping class="com.solution.lushkov.entity.Role"/>
+        <mapping class="com.solution.lushkov.entity.User"/>
+    </session-factory>
+</hibernate-configuration>

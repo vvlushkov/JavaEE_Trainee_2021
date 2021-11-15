@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres
+    container_name: lushkov_db_hibernate_lab
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./src/main/resources/createTables.sql:/docker-entrypoint-initdb.d/1-createTables.sql
+      - ./src/main/resources/insertData.sql:/docker-entrypoint-initdb.d/2-insertData.sql
+#      - ./src/main/resources/alterUserSeq.sql:/docker-entrypoint-initdb.d/3-alterUserSeq.sql
+  web:
+    build: .
+    container_name: lushkov_webapp_hibernate_lab
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
